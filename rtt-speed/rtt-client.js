@@ -2,6 +2,7 @@ var dgram = require('dgram')
 var config = require('./rtt.json')
 var f = require('util').format
 var packetSize = process.argv[2] ? parseInt(process.argv[2]) : 128
+var lostTimeout = process.argv[3] ? parseInt(process.argv[3]) : 250
 var hSendPacketTimeout
 var lastPacket
 var byteSended = 0
@@ -10,7 +11,7 @@ var packetReceivedCount = 0
 var startupDateTime = new Date().valueOf()
 
 console.log('rtt-client')
-console.log('packet size ' + packetSize)
+console.log('packet size ' + packetSize + ' B, lost timeout ' + lostTimeout + ' ms')
 var socket = dgram.createSocket('udp4')
 socket.bind(function() {
 	console.log('server_host = ' + config.client.server_host)
@@ -36,7 +37,7 @@ function sendPacket() {
 	var packet = requestPacket()
 	lastPacket = packet
 
-	hSendPacketTimeout = setTimeout(onSendPacketTimeout, 250)
+	hSendPacketTimeout = setTimeout(onSendPacketTimeout, lostTimeout)
 	socket.send(packet, 0, packet.length, config.client.server_port, config.client.server_host, function(err) {
 		if (err) {
 			console.log(err.toString())
