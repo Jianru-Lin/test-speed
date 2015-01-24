@@ -55,7 +55,7 @@ function requestPacket() {
 	if (requestPacket.nextSeq === undefined) {
 		requestPacket.nextSeq = 0
 	}
-	var buf = new Buffer(512)
+	var buf = new Buffer(128)
 	var seq = requestPacket.nextSeq++
 	var clientStamp = new Date().valueOf()
 	buf.writeInt32LE(seq, 0)
