@@ -7,7 +7,7 @@ cmd
 	.version('1.0.0')
 	.usage('[options]')
 	.option('-c, --config <filename>', 'config file to load, default is config.json')
-	.option('-p, --packet-size <n>', 'packet size in byte, default is 512')
+	.option('-p, --packet-size <n>', 'packet size in byte, default is 512', parseInt)
 	.option('-w, --window-length <n>', 'window length, default is 32')
 	.option('-t, --lost-timeout <n>', 'packet lost timeout in ms, default is 500')
 	.parse(process.argv)
@@ -45,7 +45,7 @@ var client = {
 		setInterval(function() {
 			var delta = (new Date().valueOf()) - start
 			var averageSpeed = (self._bytesConfirmed * 1000 / delta).toFixed(0)
-			log('_bytesSended=%s, _bytesConfirmed=%s, _nextPacketId=%s, %s B/s', self._bytesSended, self._bytesConfirmed, self._nextPacketId, averageSpeed)
+			log('_bytesSended=%s, _bytesConfirmed=%s, _nextPacketId=%s, %s KB/s', self._bytesSended, self._bytesConfirmed, self._nextPacketId, (averageSpeed / 1024).toFixed(0))
 		}, t * 1000)
 	},
 	_onBind: function() {
