@@ -41,8 +41,11 @@ var client = {
 	reportSpeed: function() {
 		var self = this
 		var t = 1
+		var start = new Date().valueOf()
 		setInterval(function() {
-			log('_bytesSended=%s, _bytesConfirmed=%s, _nextPacketId=%s', self._bytesSended, self._bytesConfirmed, self._nextPacketId)
+			var delta = (new Date().valueOf()) - start
+			var averageSpeed = (self._bytesConfirmed * 1000 / delta).toFixed(0)
+			log('_bytesSended=%s, _bytesConfirmed=%s, _nextPacketId=%s, %s B/s', self._bytesSended, self._bytesConfirmed, self._nextPacketId, averageSpeed)
 		}, t * 1000)
 	},
 	_onBind: function() {
