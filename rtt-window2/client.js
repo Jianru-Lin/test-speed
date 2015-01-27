@@ -78,7 +78,7 @@ var client = {
 		for (var i = 0, len = self._unconfirmedList.length; i < len; ++i) {
 			var unconfirmedPacket = self._unconfirmedList[i]
 			if (confirmPacket.id === unconfirmedPacket.id) {
-				self._bytesConfirmed += confirmPacket.length
+				self._bytesConfirmed += unconfirmedPacket.length
 				removeUnconfirmedPacket(unconfirmedPacket)
 				self._sendMore()
 				break;

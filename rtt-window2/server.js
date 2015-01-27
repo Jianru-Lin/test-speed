@@ -9,7 +9,7 @@ socket.bind(config.server.port, config.server.host, function() {
 
 	function onMessage(packet, rinfo) {
 		var id = packet.readInt32LE(0)
-		console.log(f('packet [%s] from %s:%s', id, rinfo.address, rinfo.port))
+		//console.log(f('packet [%s] from %s:%s', id, rinfo.address, rinfo.port))
 
 		var confirmPacket = new Buffer(4)
 		confirmPacket.writeInt32LE(id, 0)
