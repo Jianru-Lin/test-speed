@@ -42,7 +42,7 @@ var client = {
 		var self = this
 		var t = 1
 		setInterval(function() {
-			log('_bytesSended=%s, _bytesConfirmed=%s', self._bytesSended, self._bytesConfirmed)
+			log('_bytesSended=%s, _bytesConfirmed=%s, _nextPacketId=%s', self._bytesSended, self._bytesConfirmed, self._nextPacketId)
 		}, t * 1000)
 	},
 	_onBind: function() {
@@ -71,15 +71,21 @@ var client = {
 	},
 	_onMessage: function(confirmPacket, rinfo) {
 		var self = this
-		debugger
 		confirmPacket = self._parseConfirmPacket(confirmPacket)
 		for (var i = 0, len = self._unconfirmedList.length; i < len; ++i) {
 			var unconfirmedPacket = self._unconfirmedList[i]
 			if (confirmPacket.id === unconfirmedPacket.id) {
 				self._bytesConfirmed += confirmPacket.length
+				removeUnconfirmedPacket(unconfirmedPacket)
 				self._sendMore()
 				break;
 			}
+		}
+
+		function removeUnconfirmedPacket(target) {
+			self._unconfirmedList = self._unconfirmedList.filter(function(unconfirmedPacket) {
+				return unconfirmedPacket !== target
+			})
 		}
 	},
 	_sendNextPacket: function() {
