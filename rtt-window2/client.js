@@ -71,6 +71,7 @@ var client = {
 	},
 	_onMessage: function(confirmPacket, rinfo) {
 		var self = this
+		debugger
 		confirmPacket = self._parseConfirmPacket(confirmPacket)
 		for (var i = 0, len = self._unconfirmedList.length; i < len; ++i) {
 			var unconfirmedPacket = self._unconfirmedList[i]
